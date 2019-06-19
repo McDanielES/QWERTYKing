@@ -3,8 +3,6 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Random;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Arrays;
 public class QWERTYKing
 {
     public static final int     GAME_SIZE    =  10;
@@ -15,7 +13,7 @@ public class QWERTYKing
     {
         try
         {
-            List<String> argsList = Arrays.asList(args);
+            java.util.List<String> argsList = java.util.Arrays.asList(args);
             int     gameSize   = (argsList.size() > 1 && argsList.contains("-s")) ? (Integer.parseInt(argsList.get(argsList.indexOf("-s") + 1))) : GAME_SIZE;
             String  customFile = (argsList.size() > 1 && argsList.contains("-f")) ? (argsList.get(argsList.indexOf("-f") + 1)) : DEFAULT_FILE;
             boolean randomCaps = (argsList.size() > 1 && argsList.contains("-C")) ? !DEFAULT_CAPS : DEFAULT_CAPS;
