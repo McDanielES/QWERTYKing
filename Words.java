@@ -9,10 +9,12 @@ public class Words
     private int                gameSize;
     private boolean            randomCaps;
 
-    public Words(FileReader wordsFile, int gameSize, boolean randomCaps)
+    public Words(FileReader wordsFile, int size, boolean caps)
     {
         dictionary  = loadFile(wordsFile);
         inGameWords = new ArrayList<String>();
+        gameSize    = size;
+        randomCaps  = caps;
     }
 
     private static ArrayList<String> loadFile(FileReader wordsFile)
@@ -32,19 +34,19 @@ public class Words
     {
         for (int i = 0; i < gameSize; ++i)
         {
-            inGameWords.add(getRandomWord(dictionary, randomCaps));
+            inGameWords.add(getRandomWord());
             System.out.printf("%s ", inGameWords.get(i));
             if ((i + 1) % 10 == 0)
                 System.out.println();
         }
         System.out.printf("\n\n\t");
-    }
+    } // End fillAndPrintRandomWords()
 
-    private static String getRandomWord(ArrayList<String> words, boolean randomCaps)
+    private String getRandomWord()
     {
         // Return random word from file
-        String word = words.get(new Random().nextInt(words.size())).toLowerCase();
-        return (new Random().nextInt(3) != 0) ? word : (word.substring(0, 1).toUpperCase() + word.substring(1));
+        String word = dictionary.get(new Random().nextInt(dictionary.size())).toLowerCase();
+        return (randomCaps && new Random().nextInt(3) != 0) ? (word.substring(0, 1).toUpperCase() + word.substring(1)) : word;
     }
 
     public void getUserEntry()
@@ -69,7 +71,7 @@ public class Words
 
     private void getUserErrors()
     {
-        // Store index values of the user error(s)
+        // Helper method to store index values of the user error(s)
         errors = new ArrayList<Integer>();
         for (int i = 0; i < inGameWords.size(); ++i)
             if (!(inGameWords.get(i).trim().equals(userTypedWords.get(i).trim())))
@@ -79,7 +81,6 @@ public class Words
     public void printAnyErrors()
     {
         getUserErrors();
-        
         if (errors.size() == 0)
             System.out.println("\nGreat job! You typed perfectly!\n------------------------------");
         else
@@ -101,5 +102,4 @@ public class Words
     {
         inGameWords.removeAll(inGameWords);
     }
-
 }

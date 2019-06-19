@@ -12,15 +12,16 @@ public class QWERTYKing
         try
         {
             java.util.List<String> argsList = java.util.Arrays.asList(args);
-            int     gameSize   = (argsList.size() > 1 && argsList.contains("-s")) ? (Integer.parseInt(argsList.get(argsList.indexOf("-s") + 1))) : GAME_SIZE;
             String  customFile = (argsList.size() > 1 && argsList.contains("-f")) ? (argsList.get(argsList.indexOf("-f") + 1)) : DEFAULT_FILE;
-            boolean randomCaps = (argsList.size() > 1 && argsList.contains("-C")) ? !DEFAULT_CAPS : DEFAULT_CAPS;
+            int     gameSize   = (argsList.size() > 1 && argsList.contains("-s")) ? (Integer.parseInt(argsList.get(argsList.indexOf("-s") + 1))) : GAME_SIZE;
+            boolean randomCaps = (argsList.size() > 0 && argsList.contains("-C")) ? !DEFAULT_CAPS : DEFAULT_CAPS;
             System.out.printf("Type quit to end the game at any time.\nDuplicate the following words.\n\n");
 
-            boolean           continueGame = true;
-            FileReader        wordsFile    = new FileReader(customFile);
-            Words             gameWords    = new Words(wordsFile, gameSize, randomCaps);
+            boolean    continueGame = true;
+            FileReader wordsFile    = new FileReader(customFile);
+            Words      gameWords    = new Words(wordsFile, gameSize, randomCaps);
 
+            // Game loop logic
             while (continueGame)
             {
                 gameWords.fillAndPrintRandomWords();
