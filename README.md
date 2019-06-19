@@ -1,6 +1,8 @@
 # QWERTYKing
 ## A simple CLI typing teacher
 
+![Sample image of QWERTYKing](https://i.imgur.com/vfSD7rf.png)
+
 ---
 
 Welcome to QWERTYKing, written by Eric McDaniel - June 2019.
