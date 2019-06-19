@@ -7,16 +7,18 @@ import java.util.List;
 import java.util.Arrays;
 public class QWERTYKing
 {
-    public static final int    GAME_SIZE    =  10;
-    public static final String DEFAULT_FILE = "3000Words.txt";
+    public static final int     GAME_SIZE    =  10;
+    public static final String  DEFAULT_FILE = "3000-Words.txt";
+    public static final boolean DEFAULT_CAPS = false;
 
     public static void main(String[] args)
     {
         try
         {
             List<String> argsList = Arrays.asList(args);
-            int    gameSize   = (argsList.size() > 1 && argsList.contains("-s")) ? (Integer.parseInt(argsList.get(argsList.indexOf("-s") + 1))) : GAME_SIZE;
-            String customFile = (argsList.size() > 1 && argsList.contains("-f")) ? (argsList.get(argsList.indexOf("-f") + 1)) : DEFAULT_FILE;
+            int     gameSize   = (argsList.size() > 1 && argsList.contains("-s")) ? (Integer.parseInt(argsList.get(argsList.indexOf("-s") + 1))) : GAME_SIZE;
+            String  customFile = (argsList.size() > 1 && argsList.contains("-f")) ? (argsList.get(argsList.indexOf("-f") + 1)) : DEFAULT_FILE;
+            boolean randomCaps = (argsList.size() > 1 && argsList.contains("-C")) ? !DEFAULT_CAPS : DEFAULT_CAPS;
             System.out.printf("Type quit to end the game at any time.\nDuplicate the following words.\n\n");
 
             boolean           continueGame = true;
@@ -28,7 +30,7 @@ public class QWERTYKing
             {
                 for (int i = 0; i < gameSize; ++i)
                 {
-                    inGameWords.add(getRandomWord(words));
+                    inGameWords.add(getRandomWord(words, randomCaps));
                     System.out.printf("%s ", inGameWords.get(i));
                     if ((i + 1) % 10 == 0)
                         System.out.println();
@@ -77,11 +79,11 @@ public class QWERTYKing
         return words;
     } // End loadFile()
 
-    public static String getRandomWord(ArrayList<String> words)
+    public static String getRandomWord(ArrayList<String> words, boolean randomCaps)
     {
         // Return random word from file
-        Random rand = new Random();
-        return words.get(rand.nextInt(words.size())).toLowerCase();
+        String word = words.get(new Random().nextInt(words.size())).toLowerCase();
+        return (new Random().nextInt(3) != 0) ? word : (word.substring(0, 1).toUpperCase() + word.substring(1));
     }
 
     public static boolean validInput(ArrayList<String> userTypedWords, int gameSize)
@@ -104,7 +106,7 @@ public class QWERTYKing
     {   // Store index values of the user error(s)
         ArrayList<Integer> userErrors = new ArrayList<Integer>();
         for (int i = 0; i < inGameWords.size(); ++i)
-            if (!(inGameWords.get(i).trim().equalsIgnoreCase(userTypedWords.get(i).trim())))
+            if (!(inGameWords.get(i).trim().equals(userTypedWords.get(i).trim())))
                 userErrors.add((Integer) i);
         return userErrors;
     } // End getUserErrors()
