@@ -5,10 +5,11 @@ import java.util.Random;
 import java.util.ArrayList;
 public class QWERTYKing
 {
-    public static final int GAME_SIZE = 2;
+    public static final int GAME_SIZE = 10;
 
     public static void main(String[] args)
     {
+
         try
         {
             boolean           continueGame = true;
@@ -16,19 +17,23 @@ public class QWERTYKing
             ArrayList<String> words        = loadFile(wordsFile);
             ArrayList<String> inGameWords  = new ArrayList<String>();
 
-            System.out.printf("Type quit to end the game at any time.\nDuplicate the following words.\n");            
+            int gameSize = (args.length > 0) ? Integer.parseInt(args[0]) : GAME_SIZE;
+            System.out.printf("Type quit to end the game at any time.\nDuplicate the following words.\n\n");
+
             while (continueGame)
             {
-                for (int i = 0; i < GAME_SIZE; ++i)
+                for (int i = 0; i < gameSize; ++i)
                 {
                     inGameWords.add(getRandomWord(words));
                     System.out.printf("%s ", inGameWords.get(i));
+                    if ((i + 1) % 10 == 0)
+                        System.out.println();
                 }
                 System.out.printf("\n\n\t");
 
                 ArrayList<String> userTypedWords = fillUserInputArray(new Scanner(System.in).nextLine());
 
-                if (validInput(userTypedWords))
+                if (validInput(userTypedWords, gameSize))
                 {
                     ArrayList<Integer> errors = getUserErrors(inGameWords, userTypedWords);
                     printErrors(inGameWords, userTypedWords, errors);
@@ -37,7 +42,7 @@ public class QWERTYKing
                     continueGame = false;
                 else
                     System.err.printf("You did not type the same number of words as provided. "
-                                   + "There should be %d words.\n\n", GAME_SIZE);
+                                   + "There should be %d words.\n\n", gameSize);
 
                 inGameWords.removeAll(inGameWords);
 
@@ -45,7 +50,12 @@ public class QWERTYKing
         }
         catch (FileNotFoundException ex)
         {
-            System.err.println("Error locating file.");
+            System.err.println("Error locating file. Terminating.");
+            System.exit(1);
+        }
+        catch (NumberFormatException ex)
+        {
+            System.err.println("Error parsing argument(s). Terminating");
             System.exit(1);
         }
     } // End main()
@@ -70,9 +80,9 @@ public class QWERTYKing
         return words.get(rand.nextInt(words.size())).toLowerCase();
     }
 
-    public static boolean validInput(ArrayList<String> userTypedWords)
+    public static boolean validInput(ArrayList<String> userTypedWords, int gameSize)
     {
-        return (userTypedWords.size() == GAME_SIZE) ? true : false;
+        return (userTypedWords.size() == gameSize) ? true : false;
     }
 
     public static ArrayList<String> fillUserInputArray(String userTypedWords)
@@ -100,16 +110,14 @@ public class QWERTYKing
                                    ArrayList<Integer> errors)
     {
         if (errors.size() == 0)
-            System.out.println("Great job! You typed perfectly!\n------------------------------");
+            System.out.println("\nGreat job! You typed perfectly!\n------------------------------");
         else
         {
-            System.err.printf("\n|You accidentally made %d errors\n|          Word |         Input\n"
-                            + "|---------------|--------------\n", errors.size());
+            System.err.printf("\n|     You accidentally made %2d errors    |\n|             Word |               Input |\n"
+                            + "|------------------|---------------------|\n", errors.size());
             for (int i = 0; i < errors.size(); ++i)
-            {
-                System.err.printf("|%14s |%14s\n", inGameWords.get(errors.get(i)), userTypedWords.get(errors.get(i)));
-                System.err.printf("|------------------------------\n\n");
-            }
+                System.err.printf("|%17s |%20s |\n", inGameWords.get(errors.get(i)), userTypedWords.get(errors.get(i)));
+            System.err.printf("|-----------------------------------------\n\n");
         }
     } // End printErrors()
-}
+} // End class QWERTYKing
