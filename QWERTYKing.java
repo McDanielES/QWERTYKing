@@ -1,5 +1,8 @@
-import java.io.*;
-import java.util.*;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.Random;
+import java.util.ArrayList;
 public class QWERTYKing
 {
     public static final int GAME_SIZE = 2;
@@ -13,9 +16,9 @@ public class QWERTYKing
             ArrayList<String> words        = loadFile(wordsFile);
             ArrayList<String> inGameWords  = new ArrayList<String>();
 
+            System.out.printf("Type quit to end the game at any time.\nDuplicate the following words.\n");            
             while (continueGame)
             {
-                System.out.printf("Duplicate the following words.\n------------------------------\n");
                 for (int i = 0; i < GAME_SIZE; ++i)
                 {
                     inGameWords.add(getRandomWord(words));
@@ -33,11 +36,9 @@ public class QWERTYKing
                 else if (userTypedWords.get(0).trim().equalsIgnoreCase("quit"))
                     continueGame = false;
                 else
-                    System.out.printf("You did not type the same number of words as provided. "
+                    System.err.printf("You did not type the same number of words as provided. "
                                    + "There should be %d words.\n\n", GAME_SIZE);
 
-                // continueGame = (new Scanner(System.in).next().equalsIgnoreCase("quit")) ? true : false;
-                System.out.println();
                 inGameWords.removeAll(inGameWords);
 
             } // End game loop            
@@ -47,7 +48,7 @@ public class QWERTYKing
             System.err.println("Error locating file.");
             System.exit(1);
         }
-    }
+    } // End main()
 
     public static ArrayList<String> loadFile(FileReader wordsFile)
     {
@@ -60,13 +61,13 @@ public class QWERTYKing
             words.add(reader.next());
         reader.close();
         return words;
-    }
+    } // End loadFile()
 
     public static String getRandomWord(ArrayList<String> words)
     {
         // Return random word from file
         Random rand = new Random();
-        return words.get(rand.nextInt(words.size()));
+        return words.get(rand.nextInt(words.size())).toLowerCase();
     }
 
     public static boolean validInput(ArrayList<String> userTypedWords)
@@ -76,37 +77,39 @@ public class QWERTYKing
 
     public static ArrayList<String> fillUserInputArray(String userTypedWords)
     {
+        // Apply single line from user into ArrayList
         ArrayList<String> userInput = new ArrayList<String>();
-        Scanner scan = new Scanner(userTypedWords);
+        Scanner           scan      = new Scanner(userTypedWords);
         while (scan.hasNext())
             userInput.add(scan.next().trim());
         return userInput;
-    }
+    } // End fillUserInputArray
 
     public static ArrayList<Integer> getUserErrors(ArrayList<String> inGameWords,
                                                    ArrayList<String> userTypedWords)
-    {
+    {   // Store index values of the user error(s)
         ArrayList<Integer> userErrors = new ArrayList<Integer>();
         for (int i = 0; i < inGameWords.size(); ++i)
             if (!(inGameWords.get(i).trim().equalsIgnoreCase(userTypedWords.get(i).trim())))
                 userErrors.add((Integer) i);
         return userErrors;
-    }
+    } // End getUserErrors()
 
     public static void printErrors(ArrayList<String> inGameWords,
                                    ArrayList<String> userTypedWords,
                                    ArrayList<Integer> errors)
     {
         if (errors.size() == 0)
-            System.out.println("Great job! You typed perfectly!");
+            System.out.println("Great job! You typed perfectly!\n------------------------------");
         else
         {
-            System.out.printf("\nYou accidentally made %d errors\n          Word |         Input\n"
-                            + "---------------|--------------\n", errors.size());
+            System.err.printf("\n|You accidentally made %d errors\n|          Word |         Input\n"
+                            + "|---------------|--------------\n", errors.size());
             for (int i = 0; i < errors.size(); ++i)
             {
-                System.out.printf("%14s |%14s\n", inGameWords.get(errors.get(i)), userTypedWords.get(errors.get(i)));
+                System.err.printf("|%14s |%14s\n", inGameWords.get(errors.get(i)), userTypedWords.get(errors.get(i)));
+                System.err.printf("|------------------------------\n\n");
             }
         }
-    }
+    } // End printErrors()
 }
