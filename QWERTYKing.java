@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 public class QWERTYKing
 {
-    public static final int GAME_SIZE = 10;
+    public static final int GAME_SIZE = 2;
 
     public static void main(String[] args)
     {
@@ -21,27 +21,26 @@ public class QWERTYKing
                     inGameWords.add(getRandomWord(words));
                     System.out.printf("%s ", inGameWords.get(i));
                 }
-                System.out.printf("\n\n");
+                System.out.printf("\n\n\t");
 
                 ArrayList<String> userTypedWords = fillUserInputArray(new Scanner(System.in).nextLine());
 
                 if (validInput(userTypedWords))
                 {
                     ArrayList<Integer> errors = getUserErrors(inGameWords, userTypedWords);
-                    if (errors.size() > 0)
-                        printErrors(inGameWords, userTypedWords, errors);
-
+                    printErrors(inGameWords, userTypedWords, errors);
                 }
+                else if (userTypedWords.get(0).trim().equalsIgnoreCase("quit"))
+                    continueGame = false;
                 else
                     System.out.printf("You did not type the same number of words as provided. "
                                    + "There should be %d words.\n\n", GAME_SIZE);
 
-                System.out.printf("Continue? Enter y/n: ");
-                continueGame = !(new Scanner(System.in).next().toLowerCase().charAt(0) == 'n') ? true : false;
+                // continueGame = (new Scanner(System.in).next().equalsIgnoreCase("quit")) ? true : false;
                 System.out.println();
-            }
+                inGameWords.removeAll(inGameWords);
 
-            
+            } // End game loop            
         }
         catch (FileNotFoundException ex)
         {
@@ -65,12 +64,13 @@ public class QWERTYKing
 
     public static String getRandomWord(ArrayList<String> words)
     {
+        // Return random word from file
         Random rand = new Random();
         return words.get(rand.nextInt(words.size()));
     }
 
     public static boolean validInput(ArrayList<String> userTypedWords)
-    {        
+    {
         return (userTypedWords.size() == GAME_SIZE) ? true : false;
     }
 
@@ -89,7 +89,7 @@ public class QWERTYKing
         ArrayList<Integer> userErrors = new ArrayList<Integer>();
         for (int i = 0; i < inGameWords.size(); ++i)
             if (!(inGameWords.get(i).trim().equalsIgnoreCase(userTypedWords.get(i).trim())))
-                userErrors.add(i);
+                userErrors.add((Integer) i);
         return userErrors;
     }
 
@@ -97,6 +97,16 @@ public class QWERTYKing
                                    ArrayList<String> userTypedWords,
                                    ArrayList<Integer> errors)
     {
-
+        if (errors.size() == 0)
+            System.out.println("Great job! You typed perfectly!");
+        else
+        {
+            System.out.printf("\nYou accidentally made %d errors\n          Word |         Input\n"
+                            + "---------------|--------------\n", errors.size());
+            for (int i = 0; i < errors.size(); ++i)
+            {
+                System.out.printf("%14s |%14s\n", inGameWords.get(errors.get(i)), userTypedWords.get(errors.get(i)));
+            }
+        }
     }
 }
