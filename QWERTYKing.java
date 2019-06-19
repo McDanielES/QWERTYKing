@@ -3,22 +3,26 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 public class QWERTYKing
 {
-    public static final int GAME_SIZE = 10;
+    public static final int    GAME_SIZE    =  10;
+    public static final String DEFAULT_FILE = "3000Words.txt";
 
     public static void main(String[] args)
     {
-
         try
         {
+            List<String> argsList = Arrays.asList(args);
+            int    gameSize   = (argsList.size() > 1 && argsList.contains("-s")) ? (Integer.parseInt(argsList.get(argsList.indexOf("-s") + 1))) : GAME_SIZE;
+            String customFile = (argsList.size() > 1 && argsList.contains("-f")) ? (argsList.get(argsList.indexOf("-f") + 1)) : DEFAULT_FILE;
+            System.out.printf("Type quit to end the game at any time.\nDuplicate the following words.\n\n");
+
             boolean           continueGame = true;
-            FileReader        wordsFile    = new FileReader("3000Words.txt");
+            FileReader        wordsFile    = new FileReader(customFile);
             ArrayList<String> words        = loadFile(wordsFile);
             ArrayList<String> inGameWords  = new ArrayList<String>();
-
-            int gameSize = (args.length > 0) ? Integer.parseInt(args[0]) : GAME_SIZE;
-            System.out.printf("Type quit to end the game at any time.\nDuplicate the following words.\n\n");
 
             while (continueGame)
             {
