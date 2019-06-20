@@ -1,13 +1,13 @@
-import java.util.*;
 import java.io.FileReader;
+import java.util.*;
 public class Words
 {
-    private ArrayList<String>  dictionary;
-    private ArrayList<String>  inGameWords;
-    private ArrayList<String>  userTypedWords;
-    private ArrayList<Integer> errors;
-    private int                gameSize;
-    private boolean            randomCaps;
+    private List<String>  dictionary;
+    private List<String>  inGameWords;
+    private List<String>  userTypedWords;
+    private List<Integer> errors;
+    private int           gameSize;
+    private boolean       randomCaps;
 
     public Words(FileReader wordsFile, int size, boolean caps)
     {
@@ -17,29 +17,29 @@ public class Words
         randomCaps  = caps;
     }
 
-    private static ArrayList<String> loadFile(FileReader wordsFile)
+    private static List<String> loadFile(FileReader wordsFile)
     {
         // Instantiate reading objects
-        Scanner           reader = new Scanner(wordsFile);
-        ArrayList<String> words  = new ArrayList<String>();
+        Scanner      reader = new Scanner(wordsFile);
+        List<String> words  = new ArrayList<String>();
 
         // Add words into array and return object
         while (reader.hasNext())
             words.add(reader.next());
-        reader.close();
         return words;
     } // End loadFile()
 
     public void fillAndPrintRandomWords()
     {
+        System.out.printf("► ");
         for (int i = 0; i < gameSize; ++i)
         {
+            if (i % 6 == 0 && i > 1)
+                System.out.print("\n  ");
             inGameWords.add(getRandomWord());
             System.out.printf("%s ", inGameWords.get(i));
-            if ((i + 1) % 10 == 0)
-                System.out.println();
         }
-        System.out.printf("\n\n\t");
+        System.out.printf("\n    ↳ ");
     } // End fillAndPrintRandomWords()
 
     private String getRandomWord()
@@ -54,11 +54,11 @@ public class Words
         userTypedWords = fillUserInputArray(new Scanner(System.in).nextLine());
     }
 
-    private static ArrayList<String> fillUserInputArray(String userTypedWords)
+    private static List<String> fillUserInputArray(String userTypedWords)
     {
         // Apply single line from user into ArrayList
-        ArrayList<String> userInput = new ArrayList<String>();
-        Scanner           scan      = new Scanner(userTypedWords);
+        List<String> userInput = new ArrayList<String>();
+        Scanner           scan = new Scanner(userTypedWords);
         while (scan.hasNext())
             userInput.add(scan.next().trim());
         return userInput;
@@ -89,7 +89,7 @@ public class Words
                             + "|------------------|---------------------|\n", errors.size());
             for (int i = 0; i < errors.size(); ++i)
                 System.err.printf("|%17s |%20s |\n", inGameWords.get(errors.get(i)), userTypedWords.get(errors.get(i)));
-            System.err.printf("|-----------------------------------------\n\n");
+            System.err.printf("|------------------|---------------------|\n\n");
         }
     } // End printAnyErrors()
 
