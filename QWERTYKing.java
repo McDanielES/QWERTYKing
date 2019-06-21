@@ -1,5 +1,13 @@
 import java.io.FileReader;
 import java.util.*;
+/**
+ * <p>This is the main class of the QWERTYKing Typing Game. This program is a simple
+ * command line Java typing tutor and game for improving personal typing skills.</p>
+ * </p>
+ *
+ * @author Eric McDaniel
+ * @version 1.1
+ */
 public class QWERTYKing
 {
     public static final int     GAME_SIZE    =  10;
