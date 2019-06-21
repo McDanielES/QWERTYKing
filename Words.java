@@ -85,8 +85,8 @@ public class Words
             System.out.println("\nGreat job! You typed perfectly!\n------------------------------");
         else
         {
-            System.err.printf("\n|     You accidentally made %2d errors    |\n|             Word |               Input |\n"
-                            + "|------------------|---------------------|\n", errors.size());
+            System.err.printf("\n|     You accidentally made %2d error%s    |\n|             Word |               Input |\n"
+                            + "|------------------|---------------------|\n", errors.size(),  (errors.size() != 1) ? "s" : " ");
             for (int i = 0; i < errors.size(); ++i)
                 System.err.printf("|%17s |%20s |\n", inGameWords.get(errors.get(i)), userTypedWords.get(errors.get(i)));
             System.err.printf("|------------------|---------------------|\n\n");
