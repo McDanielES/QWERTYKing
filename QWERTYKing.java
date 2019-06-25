@@ -10,9 +10,12 @@ import java.util.*;
  */
 public class QWERTYKing
 {
-    public static final int     GAME_SIZE    =  10;
+    public static final int     DEFAULT_SIZE =  10;
     public static final String  DEFAULT_FILE = "3000-Words.txt";
     public static final boolean DEFAULT_CAPS =  false;
+    public static final String  FLAG_FILE    = "-f";
+    public static final String  FLAG_SIZE    = "-s";
+    public static final String  FLAG_CAPS    = "-C";
 
     public static void main(String[] args)
     {
@@ -20,15 +23,8 @@ public class QWERTYKing
         {
             System.out.printf("Type quit to end the game at any time.\nDuplicate the following words.\n\n");
 
-            List<String> argsList     =  Arrays.asList(args);
-            String       customFile   = (argsList.size() > 1 && argsList.contains("-f")) ? (argsList.get(argsList.indexOf("-f") + 1)) : DEFAULT_FILE;
-            int          customSize   = (argsList.size() > 1 && argsList.contains("-s")) ? (Integer.parseInt(argsList.get(argsList.indexOf("-s") + 1))) : GAME_SIZE;
-            boolean      randomCaps   = (argsList.contains("-C")) ? !DEFAULT_CAPS : DEFAULT_CAPS;
-            boolean      continueGame = true;
-            FileReader   wordsFile    = new FileReader(customFile);
-            Words        gameWords    = new Words(wordsFile,
-                                                 (customSize > 0) ? customSize : GAME_SIZE, // Discard negative integers to default size
-                                                  randomCaps);
+            Words gameWords = parseCommandLineArgs(args);
+            boolean continueGame = true;
 
             // Game loop logic
             while (continueGame)
@@ -45,7 +41,7 @@ public class QWERTYKing
                     continueGame = false;
                 else
                     System.err.printf("You did not type the same number of words as provided. "
-                                    + "There should be %d words.\n\n", customSize);
+                                    + "There should be %d words.\n\n", gameWords.getSize());
 
                 gameWords.clear();
             } // End game loop
@@ -60,5 +56,20 @@ public class QWERTYKing
             System.err.println("Error parsing argument(s). Terminating");
             System.exit(1);
         }
+        catch (IllegalArgumentException ex)
+        {
+            //nothing yet
+        }
     } // End main()
+
+    public static Words parseCommandLineArgs(String[] args) throws java.io.FileNotFoundException, NumberFormatException
+    {
+        List<String> argsList     =  Arrays.asList(args);
+        String       customFile   = (argsList.size() > 1 && argsList.contains(FLAG_FILE)) ? (argsList.get(argsList.indexOf(FLAG_FILE) + 1)) : DEFAULT_FILE;
+        int          customSize   = (argsList.size() > 1 && argsList.contains(FLAG_SIZE)) ? (Integer.parseInt(argsList.get(argsList.indexOf(FLAG_SIZE) + 1))) : DEFAULT_SIZE;
+        boolean      customCaps   = (argsList.contains(FLAG_CAPS)) ? !DEFAULT_CAPS : DEFAULT_CAPS;
+        FileReader   wordsFile    = new FileReader(customFile);
+        
+        return new Words(wordsFile, (customSize > 0) ? customSize : DEFAULT_SIZE, customCaps);
+    }
 } // End class QWERTYKing
