@@ -103,6 +103,9 @@ public class Words
 
     public void clear()
     {
+        // The statement resolves a weird bug where the object prints things
+        // in improper order. I'm not sure why, however this solution works.
+        try { Thread.sleep(5); } catch (InterruptedException ex) {}
         inGameWords.removeAll(inGameWords);
     }
 }
