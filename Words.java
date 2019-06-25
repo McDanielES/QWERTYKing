@@ -17,6 +17,9 @@ public class Words
         randomCaps  = caps;
     }
 
+    public int     getSize()    { return gameSize; }
+    public boolean randomCaps() { return randomCaps; }
+
     private static List<String> loadFile(FileReader wordsFile)
     {
         // Instantiate reading objects
