@@ -21,30 +21,24 @@ public class QWERTYKing
     {
         try
         {
-            System.out.printf("Type quit to end the game at any time.\nDuplicate the following words.\n\n");
-
             Words gameWords = parseCommandLineArgs(args);
-            boolean continueGame = true;
+            System.out.printf("Welcome to the QWERTYKing game!\n%sType quit to end the game at any time.\nDuplicate "
+                            + "the following words.\n\n", (gameWords.getSize() == DEFAULT_SIZE) ? String.format("This " + 
+                              "game session will run the %s-word default.\n", DEFAULT_SIZE) : "\n");
 
             // Game loop logic
-            while (continueGame)
-            {   // The statement resolves a weird bug where the object prints things
-                // in improper order. I'm not sure why, however this solution works.
-                try { Thread.sleep(5); } catch (InterruptedException ex) {}
-
+            do
+            {
                 gameWords.fillAndPrintRandomWords();
                 gameWords.getUserEntry();
 
-                if (gameWords.validInput() && !gameWords.quitGame())
+                if (gameWords.validInput())
                     gameWords.printAnyErrors();
-                else if (gameWords.quitGame())
-                    continueGame = false;
-                else
+                else if (!gameWords.quitGame())
                     System.err.printf("You did not type the same number of words as provided. "
                                     + "There should be %d words.\n\n", gameWords.getSize());
-
                 gameWords.clear();
-            } // End game loop
+            } while (!gameWords.quitGame()); // End game loop
         }
         catch (java.io.FileNotFoundException ex)
         {
