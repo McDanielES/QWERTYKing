@@ -10,12 +10,15 @@ import java.util.*;
  */
 public class QWERTYKing
 {
-    public static final int     DEFAULT_SIZE =  10;
-    public static final String  DEFAULT_FILE = "3000-Words.txt";
-    public static final boolean DEFAULT_CAPS =  false;
-    public static final String  FLAG_FILE    = "-f";
-    public static final String  FLAG_SIZE    = "-s";
-    public static final String  FLAG_CAPS    = "-C";
+    public static final int      DEFAULT_SIZE    = 10;
+    public static final boolean  DEFAULT_CAPS    = false;
+    public static final String   FLAG_FILE       = "-f";
+    public static final String   FLAG_DIFFICULTY = "-d";
+    public static final String   FLAG_SIZE       = "-s";
+    public static final String   FLAG_CAPS       = "-C";
+    public static final String[] GAME_FILES      = { "100-Words.txt",
+                                                     "1000-Words.txt",
+                                                     "3000-Words.txt" };
 
     public static void main(String[] args)
     {
@@ -52,18 +55,35 @@ public class QWERTYKing
         }
         catch (IllegalArgumentException ex)
         {
-            //nothing yet
+            System.err.println("Error parsing argument(s). Terminating");
+            System.exit(1);
         }
     } // End main()
 
-    public static Words parseCommandLineArgs(String[] args) throws java.io.FileNotFoundException, NumberFormatException
+    public static Words parseCommandLineArgs(String[] args) throws java.io.FileNotFoundException,
+                                                                           NumberFormatException,
+                                                                           IllegalArgumentException
     {
-        List<String> argsList     =  Arrays.asList(args);
-        String       customFile   = (argsList.size() > 1 && argsList.contains(FLAG_FILE)) ? (argsList.get(argsList.indexOf(FLAG_FILE) + 1)) : DEFAULT_FILE;
-        int          customSize   = (argsList.size() > 1 && argsList.contains(FLAG_SIZE)) ? (Integer.parseInt(argsList.get(argsList.indexOf(FLAG_SIZE) + 1))) : DEFAULT_SIZE;
-        boolean      customCaps   = (argsList.contains(FLAG_CAPS)) ? !DEFAULT_CAPS : DEFAULT_CAPS;
-        FileReader   wordsFile    = new FileReader(customFile);
+        List<String> argsList   =  Arrays.asList(args);
+        if (argsList.contains(FLAG_FILE) && argsList.contains(FLAG_DIFFICULTY))
+            throw new IllegalArgumentException();
+
+        String customFile = (argsList.size() > 1 && argsList.contains(FLAG_FILE)) ?
+                                    (argsList.get(argsList.indexOf(FLAG_FILE) + 1)) : GAME_FILES[GAME_FILES.length - 1];
+        int    customSize = (argsList.size() > 1 && argsList.contains(FLAG_SIZE)) ? 
+                                    (Integer.parseInt(argsList.get(argsList.indexOf(FLAG_SIZE) + 1))) : DEFAULT_SIZE;
         
-        return new Words(wordsFile, (customSize > 0) ? customSize : DEFAULT_SIZE, customCaps);
+        int difficultyIndex = -1;
+        if (argsList.size() > 1 && argsList.contains(FLAG_DIFFICULTY))
+            difficultyIndex = Integer.parseInt(argsList.get(argsList.indexOf(FLAG_DIFFICULTY) + 1));
+        if (difficultyIndex > 0 && difficultyIndex <= GAME_FILES.length)
+            customFile = GAME_FILES[difficultyIndex - 1];
+        else
+            throw new IllegalArgumentException();
+        if (customSize > 0)
+            customSize = DEFAULT_SIZE;
+        boolean customCaps = (argsList.contains(FLAG_CAPS)) ? !DEFAULT_CAPS : DEFAULT_CAPS;
+
+        return new Words(new FileReader(customFile), customSize, customCaps);
     }
 } // End class QWERTYKing
