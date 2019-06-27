@@ -8,6 +8,7 @@ public class Words
     private List<Integer> errors;
     private int           gameSize;
     private boolean       randomCaps;
+    private boolean       activeGame;
 
     public Words(FileReader wordsFile, int size, boolean caps)
     {
@@ -15,6 +16,7 @@ public class Words
         inGameWords = new ArrayList<String>();
         gameSize    = size;
         randomCaps  = caps;
+        activeGame  = true;
     }
 
     public int     getSize()    { return gameSize; }
@@ -55,6 +57,7 @@ public class Words
     public void getUserEntry()
     {
         userTypedWords = fillUserInputArray(new Scanner(System.in).nextLine());
+        activeGame     = !quitGame();
     }
 
     private static List<String> fillUserInputArray(String userTypedWords)
@@ -96,9 +99,14 @@ public class Words
         }
     } // End printAnyErrors()
 
-    public boolean quitGame()
+    private boolean quitGame()
     {
         return userTypedWords.get(0).trim().equalsIgnoreCase("quit");
+    }
+
+    public boolean continueGame()
+    {
+        return activeGame;
     }
 
     public void clear()
