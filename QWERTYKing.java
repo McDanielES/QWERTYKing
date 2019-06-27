@@ -6,7 +6,7 @@ import java.util.*;
  * </p>
  *
  * @author Eric McDaniel
- * @version 1.1
+ * @version 2.0
  */
 public class QWERTYKing
 {
