@@ -1,7 +1,7 @@
 # QWERTYKing
-## A simple, command line Java typing tutor and game for improving personal typing skills
+## A simple, configurable command-line Java typing tutor and game for improving personal typing skills
 
-![Sample image of QWERTYKing](https://i.imgur.com/oQyo6UI.png)
+![Sample image of QWERTYKing with custom configured settings](https://i.imgur.com/AfsFeMy.png)
 
 ---
 
@@ -11,7 +11,7 @@ Welcome to QWERTYKing, written by Eric McDaniel - June 2019.
 Disclaimer: There is a strong probability that this program won't be useful to you. I wrote it for my own benefit. I was never taught how to properly type using the popular "homerow" technique. I joking describe my typing technique as refined and advanced hunt-and-pecking, where I use four fingers to type. Although I've developed a lot of speed after years of practicing this poor habit, it's terribly inefficient, inaccurate, and often forces me to stare at a keyboard and not at the screen.
 
 #### But tons of other, better software exists. Why add another?
-+ I've been practicing proper typing techniques on various other websites, e.g. [Typing Club](https://www.typingclub.com/sportal/) and [ZType](https://zty.pe/), but I get frustrated with all of the frills and nonsense, needless animation and wasted time. I just wanted to create a custom, no-nonsense typing game.
++ I've been practicing proper typing techniques on various other websites, e.g. [Typing Club](https://www.typingclub.com/sportal/) and [ZType](https://zty.pe/), but I get frustrated with all of the frills and nonsense, needless animation and wasted time. I just wanted to create a configurable, no-nonsense typing game.
 + I don't care about useless statistics, points, badges, accolades, and other rewards when playing the majority of games online. I just wanted a straight-to-the-point typing game. I am my own disciplinarian.
 + It was a fun thought experiment and decent practice in programming. 
 
@@ -47,9 +47,10 @@ This would require you to only need to type `QWERTYKing` into your shell. You ca
 #### Optional Flags:
 | Flag | | Description |
 | --- | --- | --- |
-| `-f` | `<VALUE>` | Provide a custom textfile dictionary for use. Easy (100-Words.txt), Medium (1000-Words.txt), and Hard (3000-Words.txt) are provided. The program defaults to Hard if no flag is provided. |
+| `-d` | `<VALUE>` | Select a difficulty level ranging from 1 (easy) to 3 (hard). The program defaults to Hard if no flag is provided.  |
+| `-f` | `<VALUE>` | Provide a custom dictionary textfile for use. |
 | `-s` | `<VALUE>` | Choose the number of words to be used in game play. The default is 10 |
-| `-C` | | Approximately a third of the words will have a capitalized first letter. The default is <i>off</i>. |
+| `-C` | | Approximately one third of the words will randomly have a capitalized first letter. The default is <i>off</i>. |
 
 
 #### Contact the Author
