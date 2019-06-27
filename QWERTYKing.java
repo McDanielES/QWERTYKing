@@ -35,13 +35,13 @@ public class QWERTYKing
                 gameWords.fillAndPrintRandomWords();
                 gameWords.getUserEntry();
 
-                if (gameWords.validInput())
+                if (gameWords.validInput() && gameWords.continueGame())
                     gameWords.printAnyErrors();
-                else if (!gameWords.quitGame())
+                else if (gameWords.continueGame())
                     System.err.printf("You did not type the same number of words as provided. "
                                     + "There should be %d words.\n\n", gameWords.getSize());
                 gameWords.clear();
-            } while (!gameWords.quitGame()); // End game loop
+            } while (gameWords.continueGame()); // End game loop
         }
         catch (java.io.FileNotFoundException ex)
         {
@@ -51,37 +51,37 @@ public class QWERTYKing
         catch (NumberFormatException ex)
         {
             System.err.println("Error parsing argument(s). Terminating");
-            System.exit(1);
+            System.exit(2);
+        }
+        catch (ArrayIndexOutOfBoundsException ex)
+        {
+            System.err.println("Invalid difficulty value. Please select a difficulty "
+                            + "level between 1 to 3. Terminating");
+            System.exit(3);
         }
         catch (IllegalArgumentException ex)
         {
             System.err.println("Error parsing argument(s). Terminating");
-            System.exit(1);
+            System.exit(4);
         }
     } // End main()
 
-    public static Words parseCommandLineArgs(String[] args) throws java.io.FileNotFoundException,
-                                                                           NumberFormatException,
-                                                                           IllegalArgumentException
+    public static Words parseCommandLineArgs(String[] args) throws java.io.FileNotFoundException
     {
-        List<String> argsList   =  Arrays.asList(args);
+        List<String> argsList = Arrays.asList(args);
         if (argsList.contains(FLAG_FILE) && argsList.contains(FLAG_DIFFICULTY))
             throw new IllegalArgumentException();
 
-        String customFile = (argsList.size() > 1 && argsList.contains(FLAG_FILE)) ?
+        String customFile = (argsList.contains(FLAG_FILE)) ?
                                     (argsList.get(argsList.indexOf(FLAG_FILE) + 1)) : GAME_FILES[GAME_FILES.length - 1];
-        int    customSize = (argsList.size() > 1 && argsList.contains(FLAG_SIZE)) ? 
+        int    customSize = (argsList.contains(FLAG_SIZE)) ? 
                                     (Integer.parseInt(argsList.get(argsList.indexOf(FLAG_SIZE) + 1))) : DEFAULT_SIZE;
         
-        int difficultyIndex = -1;
-        if (argsList.size() > 1 && argsList.contains(FLAG_DIFFICULTY))
-            difficultyIndex = Integer.parseInt(argsList.get(argsList.indexOf(FLAG_DIFFICULTY) + 1));
-        if (difficultyIndex > 0 && difficultyIndex <= GAME_FILES.length)
-            customFile = GAME_FILES[difficultyIndex - 1];
-        else
+        customFile = (argsList.contains(FLAG_DIFFICULTY)) ?
+                                    (GAME_FILES[Integer.parseInt(argsList.get(argsList.indexOf(FLAG_DIFFICULTY) + 1)) - 1]) : GAME_FILES[GAME_FILES.length - 1];
+        if (customSize < 1)
             throw new IllegalArgumentException();
-        if (customSize > 0)
-            customSize = DEFAULT_SIZE;
+
         boolean customCaps = (argsList.contains(FLAG_CAPS)) ? !DEFAULT_CAPS : DEFAULT_CAPS;
 
         return new Words(new FileReader(customFile), customSize, customCaps);
