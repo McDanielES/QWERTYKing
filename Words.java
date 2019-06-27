@@ -19,8 +19,9 @@ public class Words
         activeGame  = true;
     }
 
-    public int     getSize()    { return gameSize; }
-    public boolean randomCaps() { return randomCaps; }
+    public int     getSize()           { return gameSize; }
+    public int     getDictionarySize() { return dictionary.size(); }
+    public boolean randomCaps()        { return randomCaps; }
 
     private static List<String> loadFile(FileReader wordsFile)
     {
@@ -88,7 +89,7 @@ public class Words
     {
         getUserErrors();
         if (errors.size() == 0)
-            System.out.println("\nGreat job! You typed perfectly!\n------------------------------");
+            System.out.println("\nGreat job! You typed the selection perfectly!\n---------------------------------------------\n");
         else
         {
             System.err.printf("\n|     You accidentally made %2d error%s    |\n|             Word |               Input |\n"
