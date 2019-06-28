@@ -67,7 +67,6 @@ affect
 afford
 afraid
 African
-African-American
 after
 afternoon
 again
@@ -109,6 +108,7 @@ although
 always
 AM
 amazing
+America
 American
 among
 amount
@@ -746,6 +746,7 @@ determine
 develop
 developing
 development
+developmental
 device
 devote
 dialogue
@@ -876,7 +877,7 @@ eliminate
 elite
 else
 elsewhere
-e-mail
+email
 embrace
 emerge
 emergency
@@ -1559,7 +1560,6 @@ locate
 location
 lock
 long
-long-term
 look
 loose
 lose
@@ -1615,6 +1615,8 @@ master
 match
 material
 math
+mathematics
+mathematical
 matter
 may
 maybe
@@ -1668,7 +1670,6 @@ mission
 mistake
 mix
 mixture
-mm-hmm
 mode
 model
 moderate
@@ -1775,7 +1776,6 @@ notion
 novel
 now
 nowhere
-n't
 nuclear
 number
 numerous
@@ -2069,6 +2069,7 @@ professor
 profile
 profit
 program
+programmer
 progress
 project
 prominent
@@ -2457,7 +2458,6 @@ smooth
 snap
 snow
 so
-so-called
 soccer
 social
 society
