@@ -31,7 +31,7 @@ public class Words
 
         // Add words into array and return object
         while (reader.hasNext())
-            words.add(reader.next());
+            words.add(reader.next().replaceAll("[^\\w\\s]", "").trim());
         return words;
     } // End loadFile()
 
@@ -114,7 +114,7 @@ public class Words
     {
         // The statement resolves a weird bug where the object prints things
         // in improper order. I'm not sure why, however this solution works.
-        try { Thread.sleep(5); } catch (InterruptedException ex) {}
+        try { Thread.sleep(1); } catch (InterruptedException ex) {}
         inGameWords.removeAll(inGameWords);
     }
 }
