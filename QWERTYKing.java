@@ -76,8 +76,8 @@ public class QWERTYKing
         int     size = (args.contains(FLAG_SIZE)) ? 
                            (Integer.parseInt(args.get(args.indexOf(FLAG_SIZE) + 1))) : DEFAULT_SIZE;
         
-        file = (args.contains(FLAG_DIFFICULTY)) ?
-                           (GAME_FILES[Integer.parseInt(args.get(args.indexOf(FLAG_DIFFICULTY) + 1)) - 1]) : GAME_FILES[GAME_FILES.length - 1];
+        if (args.contains(FLAG_DIFFICULTY))
+            file = (GAME_FILES[Integer.parseInt(args.get(args.indexOf(FLAG_DIFFICULTY) + 1)) - 1]);
         if (size < 1)
             throw new IllegalArgumentException();
 
@@ -88,8 +88,8 @@ public class QWERTYKing
     {
         String text = (game.getSize() == DEFAULT_SIZE) ?
                           String.format("This session will challenge you with the %s-word default.\n", DEFAULT_SIZE) :
-                          String.format("This session will challenge you with a custom number of %s words\n", game.getSize());
-        text += String.format("This session will select from a dictionary containing %d words.\n", game.getDictionarySize());
+                          String.format("This session will challenge you with a custom number of %,d words\n", game.getSize());
+        text += String.format("This session will select from a dictionary containing %,d words.\n", game.getDictionarySize());
         if (game.randomCaps())
             text += "Random Capitalization mode activated.\n";
         return text;

@@ -38,11 +38,6 @@ javac QWERTYKing.java
 ```
 java QWERTYKing [FLAGS] [ARGUMENTS]
 ```
-To get the most out of this utility, set an alias in your shell's <i>rc</i> file to have java reference the path of the program. This also eliminates typing the keyword `java`. For example, you can append:
-```
-alias QWERTYKing='java -cp ~/<path>/<to>/<directory>/QWERTYKing QWERTYKing'
-```
-This would require you to only need to type `QWERTYKing` into your shell. You can even shorten it to `RP` or whatever you choose.
 
 #### Optional Flags:
 | Flag | | Description |

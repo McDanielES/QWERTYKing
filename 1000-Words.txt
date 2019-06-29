@@ -566,7 +566,6 @@ note
 nothing
 notice
 now
-n't
 number
 occur
 of
@@ -666,6 +665,7 @@ production
 professional
 professor
 program
+programmer
 project
 property
 protect
