@@ -19,9 +19,10 @@ public class Words
     }
 
     // Basic getters for quick info
-    public int     getSize()           { return gameSize; }
+    public int     getSize()           { return gameSize;          }
     public int     getDictionarySize() { return dictionary.size(); }
-    public boolean randomCaps()        { return randomCaps; }
+    public boolean randomCaps()        { return randomCaps;        }
+    public boolean continueGame()      { return activeGame;        }
 
     // Copy the textfile's words into memory. Parse special characters
     private static List<String> loadFile(FileReader wordsFile)
@@ -50,6 +51,7 @@ public class Words
         System.out.printf("\n    ↳ ");
     } // End fillAndPrintRandomWords()
 
+    // Return a random words from dictionary, including random capitalization if specified
     private String getRandomWord()
     {
         // Return random word from file
@@ -57,12 +59,14 @@ public class Words
         return (randomCaps && new Random().nextInt(3) != 0) ? (word.substring(0, 1).toUpperCase() + word.substring(1)) : word;
     }
 
+    // Store user's input into object for comparison with dictionary
     public void getUserEntry()
     {
         userTypedWords = fillUserInputArray(new Scanner(System.in).nextLine());
         activeGame     = !quitGame();
     }
 
+    // Read user's input and store into memory
     private static List<String> fillUserInputArray(String userTypedWords)
     {
         // Apply single line from user into ArrayList
@@ -73,11 +77,13 @@ public class Words
         return userInput;
     } // End fillUserInputArray
 
+    // Verify if user's input word count matches number of words assigned
     public boolean validInput()
     {
         return (userTypedWords.size() == gameSize) ? true : false;
     }
 
+    // Compare user's input with dictionary, add to list if misspelled
     private void getUserErrors()
     {
         // Helper method to store index values of the user error(s)
@@ -87,6 +93,7 @@ public class Words
                 errors.add((Integer) i);
     } // End getUserErrors()
 
+    // Print to stdout what errors the user mistyped
     public void printAnyErrors()
     {
         getUserErrors();
@@ -102,16 +109,13 @@ public class Words
         }
     } // End printAnyErrors()
 
+    // Require user to type "quit" exactly to quit the game
     private boolean quitGame()
     {
         return userTypedWords.get(0).trim().equalsIgnoreCase("quit");
     }
 
-    public boolean continueGame()
-    {
-        return activeGame;
-    }
-
+    // Clear the words from the dictionary for the next round
     public void clear()
     {
         // The statement resolves a weird bug where the object prints things
