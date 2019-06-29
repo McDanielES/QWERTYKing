@@ -8,7 +8,7 @@ public class Words
     private List<Integer> errors;
     private int           gameSize;
     private boolean       randomCaps;
-    private boolean       activeGame;
+    private boolean       activeGame = true;
 
     public Words(FileReader wordsFile, int size, boolean caps)
     {
@@ -16,13 +16,14 @@ public class Words
         inGameWords = new ArrayList<String>();
         gameSize    = size;
         randomCaps  = caps;
-        activeGame  = true;
     }
 
+    // Basic getters for quick info
     public int     getSize()           { return gameSize; }
     public int     getDictionarySize() { return dictionary.size(); }
     public boolean randomCaps()        { return randomCaps; }
 
+    // Copy the textfile's words into memory. Parse special characters
     private static List<String> loadFile(FileReader wordsFile)
     {
         // Instantiate reading objects
@@ -35,6 +36,7 @@ public class Words
         return words;
     } // End loadFile()
 
+    // Print a random word to stdout. Create a new line every six words
     public void fillAndPrintRandomWords()
     {
         System.out.printf("► ");
