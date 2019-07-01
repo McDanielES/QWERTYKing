@@ -49,7 +49,7 @@ public class QWERTYKing
         }
         catch (NumberFormatException ex)
         {
-            System.err.println("Error parsing argument(s). Terminating");
+            System.err.println("Error parsing numerical argument(s). Terminating.");
             System.exit(2);
         }
         catch (ArrayIndexOutOfBoundsException ex)
@@ -60,7 +60,7 @@ public class QWERTYKing
         }
         catch (IllegalArgumentException ex)
         {
-            System.err.println("Error parsing argument(s). Terminating");
+            System.err.println("Error parsing argument(s). Terminating.");
             System.exit(4);
         }
     } // End main()
@@ -86,10 +86,11 @@ public class QWERTYKing
 
     public static String gameDetails(Words game)
     {
-        String text = (game.getSize() == DEFAULT_SIZE) ?
-                          String.format("This session will challenge you with the %s-word default.\n", DEFAULT_SIZE) :
-                          String.format("This session will challenge you with a custom number of %,d words\n", game.getSize());
-        text += String.format("This session will select from a dictionary containing %,d words.\n", game.getDictionarySize());
+        String text = String.format("This session will select from a dictionary containing %,d words.\n"
+                                  + "This session will challenge you with ", game.getDictionarySize());
+        text += (game.getSize() == DEFAULT_SIZE) ?
+                          String.format("the default selection of %s-words.\n", DEFAULT_SIZE) :
+                          String.format("a custom selection of %,d words\n", game.getSize());
         if (game.randomCaps())
             text += "Random Capitalization mode activated.\n";
         return text;
