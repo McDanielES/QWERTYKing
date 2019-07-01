@@ -49,7 +49,7 @@ public class QWERTYKing
         }
         catch (NumberFormatException ex)
         {
-            System.err.println("Error parsing argument(s). Terminating");
+            System.err.println("Error parsing numerical argument(s). Terminating.");
             System.exit(2);
         }
         catch (ArrayIndexOutOfBoundsException ex)
@@ -60,7 +60,7 @@ public class QWERTYKing
         }
         catch (IllegalArgumentException ex)
         {
-            System.err.println("Error parsing argument(s). Terminating");
+            System.err.println("Error parsing argument(s). Terminating.");
             System.exit(4);
         }
     } // End main()
