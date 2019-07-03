@@ -80,7 +80,7 @@ public class Words
     // Verify if user's input word count matches number of words assigned
     public boolean validInput()
     {
-        return (userTypedWords.size() == gameSize) ? true : false;
+        return (userTypedWords.size() == gameSize);
     }
 
     // Compare user's input with dictionary, add to list if misspelled
