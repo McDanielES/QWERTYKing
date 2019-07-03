@@ -89,7 +89,7 @@ public class Words
         // Helper method to store index values of the user error(s)
         errors = new ArrayList<Integer>();
         for (int i = 0; i < inGameWords.size(); ++i)
-            if (!(inGameWords.get(i).trim().equals(userTypedWords.get(i).trim())))
+            if (!(inGameWords.get(i).equals(userTypedWords.get(i))))
                 errors.add((Integer) i);
     } // End getUserErrors()
 
@@ -101,7 +101,7 @@ public class Words
             System.out.println("\nGreat job! You typed the selection perfectly!\n---------------------------------------------\n");
         else
         {
-            System.err.printf("\n|     You accidentally made %2d error%s    |\n|             Word |               Input |\n"
+            System.err.printf("\n|     You accidentally made %-2d error%s    |\n|             Word |               Input |\n"
                             + "|------------------|---------------------|\n", errors.size(),  (errors.size() != 1) ? "s" : " ");
             for (int i = 0; i < errors.size(); ++i)
                 System.err.printf("|%17s |%20s |\n", inGameWords.get(errors.get(i)), userTypedWords.get(errors.get(i)));
