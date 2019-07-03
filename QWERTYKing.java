@@ -6,7 +6,7 @@ import java.util.*;
  * </p>
  *
  * @author Eric McDaniel
- * @version 2.0
+ * @version 2.1
  */
 public class QWERTYKing
 {
@@ -24,6 +24,7 @@ public class QWERTYKing
     {
         try
         {
+            // Instantiate Object based on cmd line args
             Words gameWords = parseCommandLineArgs(Arrays.asList(args));
             System.out.printf("Welcome to the QWERTYKing game!\nType quit to end the game at any time.\n%s\nDuplicate "
                             + "the following words.\n\n", gameDetails(gameWords));
@@ -75,7 +76,7 @@ public class QWERTYKing
                            (args.get(args.indexOf(FLAG_FILE) + 1)) : GAME_FILES[GAME_FILES.length - 1];
         int     size = (args.contains(FLAG_SIZE)) ? 
                            (Integer.parseInt(args.get(args.indexOf(FLAG_SIZE) + 1))) : DEFAULT_SIZE;
-        
+
         if (args.contains(FLAG_DIFFICULTY))
             file = (GAME_FILES[Integer.parseInt(args.get(args.indexOf(FLAG_DIFFICULTY) + 1)) - 1]);
         if (size < 1)
